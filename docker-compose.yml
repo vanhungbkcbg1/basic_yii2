@@ -42,9 +42,9 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq
+    hostname: rabbitmq
     volumes:
-#      - ./.docker/rabbitmq/etc/:/etc/rabbitmq/
-      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - rabbit_data:/var/lib/rabbitmq/
       - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
     environment:
       RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
@@ -62,3 +62,4 @@ networks:
     driver: bridge
 volumes:
   mysql_data:
+  rabbit_data:

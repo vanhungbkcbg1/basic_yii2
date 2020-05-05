@@ -8,6 +8,9 @@ use app\DI\ITest;
 use app\DI\Test;
 use app\models\Post;
 use app\Services\PostService;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+use yii\db\ActiveRecord;
 use yii\rest\ActiveController;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -40,6 +43,32 @@ class ApiController extends ActiveController
     {
         //ToDo push message to queue;
 
+        //insert data to table
+        $data = [
+            "title" => "demo",
+            "content" => "demo content"
+        ];
+
+        $result=$this->postService->insert($data);
+        if(!$result instanceof ActiveRecord){
+            $lastInsertedId=$result;
+            $connection = new AMQPStreamConnection('rabbitmq', 5672, 'admin', 'admin');
+            $channel = $connection->channel();
+
+            $channel->queue_declare('demo', false, true, false, false);
+
+            $msg = new AMQPMessage($lastInsertedId);
+            $channel->basic_publish($msg, '', 'demo');
+
+
+            $channel->close();
+            $connection->close();
+            return "Sent OrderId={$lastInsertedId}";
+        }
+        return  "Error";
+
+
+
     }
 
     public function actionInsert()
@@ -53,7 +82,7 @@ class ApiController extends ActiveController
             //insert failed
             throw new BadRequestHttpException(json_encode($data->getErrors()));
         }
-        return  ["data"=>"OK"];
+        return ["data" => "OK"];
     }
 
     public function actionError()

@@ -43,7 +43,7 @@ abstract class BaseRepository implements IRepository
         if (!$result) {
             return $record;
         }
-        return true;
+        return $record->id;
     }
 
     public function update($id, $data)

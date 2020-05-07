@@ -74,6 +74,10 @@ $config = [
                 ],
             ],
         ],
+        "jwt"=>[
+            "class"=>\bizley\jwt\Jwt::class,
+            "key"=>"123"
+        ]
 
     ],
     'params' => $params,

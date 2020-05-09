@@ -16,6 +16,9 @@ $config = [
             'class' => 'yii\debug\Module',
             'allowedIPs' => ['*']
         ],
+        "v1"=>[
+            "class"=>\app\modules\v1\V1::class
+        ],
     ],
 
     'aliases' => [
@@ -58,9 +61,14 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+//            'rules' => [
+//                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user', 'v1/post']],
+//                ['class' => 'yii\rest\UrlRule', 'controller' => ['v2/user', 'v2/post']],
+//            ],
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
+
             // uncomment if you want to cache RBAC items hierarchy
             // 'cache' => 'cache',
         ],

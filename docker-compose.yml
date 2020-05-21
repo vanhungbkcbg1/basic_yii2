@@ -39,13 +39,13 @@ services:
       - nginx
     volumes:
       - mysql_data:/var/lib/mysql
-  rabbitmq:
+  rabbitmq_1:
     image: rabbitmq:3-management-alpine
-    container_name: rabbitmq
-    hostname: rabbitmq
-    volumes:
-      - rabbit_data:/var/lib/rabbitmq/
-      - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
+    container_name: rabbitmq1
+    hostname: rabbitmq1
+#    volumes:
+#      - rabbit_data_1:/var/lib/rabbitmq/
+#      - ./docker/rabbitmq/logs_1/:/var/log/rabbitmq/
     environment:
       RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
@@ -55,6 +55,39 @@ services:
       - 15672:15672
     networks:
       - nginx
+  rabbitmq_2:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq2
+    hostname: rabbitmq2
+#    volumes:
+#      - rabbit_data_2:/var/lib/rabbitmq/
+#      - ./docker/rabbitmq/logs_2/:/var/log/rabbitmq/
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - 5673:5672
+      - 15673:15672
+    networks:
+      - nginx
+
+  rabbitmq_3:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq3
+    hostname: rabbitmq3
+    #    volumes:
+    #      - rabbit_data_2:/var/lib/rabbitmq/
+    #      - ./docker/rabbitmq/logs_2/:/var/log/rabbitmq/
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - 5674:5672
+      - 15674:15672
+    networks:
+      - nginx
 
 
 networks:
@@ -62,4 +95,5 @@ networks:
     driver: bridge
 volumes:
   mysql_data:
-  rabbit_data:
+  rabbit_data_1:
+  rabbit_data_2:

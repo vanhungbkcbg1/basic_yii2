@@ -30,10 +30,11 @@ class RabbitController extends Controller
      */
     public function actionIndex($message = 'hello world')
     {
-        $connection = new AMQPStreamConnection('rabbitmq', 5672, 'admin', 'admin');
+        //connect to classic load balancer to recieve data from rabbit cluster
+        $connection = new AMQPStreamConnection('rabbit-lb-1343119850.ap-northeast-1.elb.amazonaws.com', 5672, 'admin', 'admin');
         $channel = $connection->channel();
 
-        $channel->queue_declare('demo', false, true, false, false);
+//        $channel->queue_declare('mirr.queue_1', false, true, false, false);
 
         echo " [*] Waiting for messages. To exit press CTRL+C\n";
 
@@ -41,7 +42,7 @@ class RabbitController extends Controller
             echo ' [x] Received ', $msg->body, "\n";
         };
 
-        $channel->basic_consume('demo', '', false, true, false, false, $callback);
+        $channel->basic_consume('mirr.queue_1', '', false, true, false, false, $callback);
 
         while ($channel->is_consuming()) {
             $channel->wait();

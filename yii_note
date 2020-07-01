@@ -13,6 +13,6 @@ de quy dinh tung action cho phep request boi nhung action nao
 actions() trong controller
 trong viec mapping action,no se check actionid trong thang nay truoc ,neu ton tai thi no se goi action nay
 
-lien quan toi fields and extrafields duoc xu li trong thang arrayabletrait
+lien quan toi fields and extrafields duoc xu li trong thang arrayabletrait(trigger by after action)
 lien quan toi getter,setter no duoc xu li them o trong thang BaseObject,co the can xem them cho magic function trong php
 

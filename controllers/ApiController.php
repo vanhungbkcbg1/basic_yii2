@@ -39,6 +39,10 @@ class ApiController extends ActiveController
         return $post;
     }
 
+    public function actionDemo($id){
+        return "demo".$id;
+    }
+
     public function actionPush()
     {
         //ToDo push message to queue;

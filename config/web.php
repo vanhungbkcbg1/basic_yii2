@@ -61,10 +61,23 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-//            'rules' => [
-//                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user', 'v1/post']],
+            'enableStrictParsing' => true,
+            'rules' => [
+                [   'class' => 'yii\rest\UrlRule',
+                    'controller' => "api",
+                    'extraPatterns' => [
+                        'GET <id>/demo' => 'demo',
+                    ],
+
+                    //    when user config rule
+                    //       - check rule
+                                 // - match -> return router to controller(theo so nhieu cua controller api bi chuyen thanh apis)
+                    //              - ko match
+                                         // - enableStrictParsing=true ->return 404
+                                         // - enableStrictParsing =false -> search theo thong thuong
+                ],
 //                ['class' => 'yii\rest\UrlRule', 'controller' => ['v2/user', 'v2/post']],
-//            ],
+            ],
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
